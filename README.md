@@ -45,6 +45,18 @@ Noobchain example includes the following:
 - A simple block (`Block.java`) containing `previous block's hash`, its own 
 `hash`, and simple `data`.
 
+```java
+public String calculateHash() {
+    String calculatedhash = StringUtil.applySha256(
+        previousHash +
+        Long.toString(timeStamp) +
+        Integer.toString(nonce) +
+        data);
+
+    return calculatedhash;
+}
+```
+
 - The `hash` is generated using `SHA-256` cryptograhic hash algorithm. The code
 can be found in `StringUtil.java`.
 
@@ -58,6 +70,30 @@ comparing the current block hash with the calculated hash. It also checks the
 current block's reference to the previous block hash with the previous block hash.
 Any tampering of a block's hash is easily detected.
 
+```java
+public Boolean isChainValid() {
+    // loop through blockchain to check hashes
+    for (int i = 1; i < blockchain.size(); i++) {
+        Block currentBlock = blockchain.get(i);
+        Block previousBlock = blockchain.get(i - 1);
+
+        // compare current block's hash with calculated hash
+        if (!currentBlock.getHash().equals(currentBlock.calculateHash())) {
+            log.info("Calculated hash doesn't match block's hash.");
+            return false;
+        }
+
+        // compare previous hash with current block's previous hash
+        if (!previousBlock.getHash().equals(currentBlock.getPreviousHash())) {
+            log.info(
+                "Previous block hash doesn't match curent block's previous hash.");
+            return false;
+        }
+    }
+    return true;
+}
+```
+
 - The `Proof of Work` in this example is measured by having a certain number of 
 `0s` at the beginning of the `hash`. This is done by introducing a `nonce` 
 (number used once) in the hash claculation. The `nonce` is modified until the 
@@ -65,7 +101,22 @@ required result is achieved. You can find the code in the `mineBlock` method
 of `Block` class. The `mineBlock` takes a parameter named `difficulty` which
 specifies the number of starting `0s` required for a hash.
 
+```java
+public void mineBlock(int difficulty) {
+   //Create a string with difficulty * "0"
+   String target = new String(new char[difficulty]).replace('\0', '0');
+
+   while (!hash.substring(0, difficulty).equals(target)) {
+       nonce++;
+       hash = calculateHash();
+   }
+}
+```
+
 ![](./img/noobchain-class-dia.svg)
+
+Noobchain Example 2
+====================
 
 
 ### Build
