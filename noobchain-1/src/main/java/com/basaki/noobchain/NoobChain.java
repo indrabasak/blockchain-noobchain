@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @SuppressWarnings({"squid:S106"})
 public class NoobChain {
 
-    private static final int difficulty = 5;
+    private static final int DIFFICULTY = 5;
 
     private List<Block> blockchain = new ArrayList<>();
 
@@ -30,7 +30,7 @@ public class NoobChain {
         //add block to the blockchain list
         blockchain.add(block);
 
-        block.mineBlock(difficulty);
+        block.mineBlock(DIFFICULTY);
     }
 
     /**
@@ -47,21 +47,22 @@ public class NoobChain {
      * @return true if the block chain is valid or false otherwise
      */
     public Boolean isChainValid() {
-        //loop through blockchain to check hashes
+        // loop through blockchain to check hashes
         for (int i = 1; i < blockchain.size(); i++) {
             Block currentBlock = blockchain.get(i);
             Block previousBlock = blockchain.get(i - 1);
-            //compare registered hash and calculated hash
+
+            // compare current block's hash with calculated hash
             if (!currentBlock.getHash().equals(currentBlock.calculateHash())) {
-                log.info("Calulated hash doesn't match block's hash!");
+                log.info("Calculated hash doesn't match block's hash.");
                 return false;
             }
 
-            //compare previous hash and registered previous hash
+            // compare previous hash with current block's previous hash
             if (!previousBlock.getHash().equals(
                     currentBlock.getPreviousHash())) {
                 log.info(
-                        "Previous block hash doesn't match curent block's previous hash attribute!");
+                        "Previous block hash doesn't match curent block's previous hash.");
                 return false;
             }
         }
