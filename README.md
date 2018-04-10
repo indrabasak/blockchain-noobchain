@@ -35,12 +35,17 @@ helps to avoid blockchain tampering.
 
 **Hashcash** is the **Proof of Work** used by Bitcoin. 
 
+A blockchain **wallet** is a digital wallet that allows users to 
+manage crypto-currencies such as bitcoin. Coin ownership in a blockchain is 
+transferred as transactions. Every participant in a blockchain has a unique
+address for sending and receiving crypto-currencies.
+
 Noobchain Example 1
 ====================
 
 ![](./img/blockchain.svg)
 
-Noobchain example includes the following:
+Noobchain example one includes the following:
 
 - A simple block (`Block.java`) containing `previous block's hash`, its own 
 `hash`, and simple `data`.
@@ -117,6 +122,29 @@ public void mineBlock(int difficulty) {
 
 Noobchain Example 2
 ====================
+Noobchain example two includes the following:
+
+- Create a simple `wallet` which can send and receive transactions of `noobcoins`.
+
+- Every `wallet` has a `public key` and a `private key`. The `public key` acts
+as the wallet's address. The `private key` is used to `sign transactions`. 
+Signing prevents tampering with a owner's `noobcoins`. A sender's `public key` 
+is sent along every transaction for verification.
+
+- A private and public keys are generated as a key pair`. `Elliptic Curve Digital 
+Signature Algorithm (ECDSA)` signature is used to generate the key pair in
+method `generateKeyPair` of `Wallet` class.
+
+- `Transactions` are sent using `NoobChain`. Each transaction contains the
+following information:
+  - a unique `transaction id`
+  - `public keys` of the sender and the receiver of funds
+  - `amount` to be transferred. 
+  - previous transactions (`inputs`) which helps in proving that there is 
+  enough fund to send. 
+  - outgoing transactions (`outputs`) with the amount to be transferred 
+  - a `crytographic signature` to prove that that the transaction hasn't been
+tampered with
 
 
 ### Build
