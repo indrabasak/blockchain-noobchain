@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 @Slf4j
+@SuppressWarnings({"squid:S3776", "squid:S3008"})
 public class NoobChain {
 
     public static final float MINIMUM_TRANSACTION_VALUE = 0.1f;

@@ -53,8 +53,8 @@ public class Wallet {
                     }
                     return mine;
                 })
-                .collect(Collectors.summingDouble(
-                        t -> t.getValue())).floatValue();
+                .collect(Collectors.summingDouble(TransactionOutput::getValue))
+                .floatValue();
     }
 
     public Transaction sendFunds(PublicKey recipient, float value) {
