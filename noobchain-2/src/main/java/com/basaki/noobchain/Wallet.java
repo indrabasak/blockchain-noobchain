@@ -10,9 +10,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * {@code Wallet} represents a a digital wallet which manages noobcoins.
+ */
 @SuppressWarnings({"squid:S00112"})
 @Slf4j
 public class Wallet {
@@ -23,25 +27,34 @@ public class Wallet {
     @Getter
     private PublicKey publicKey;
 
-    private Map<String, TransactionOutput> unspentTransactions = new HashMap<>();
+    // unspent transactions
+    private Map<String, TransactionOutput> utxo = new HashMap<>();
 
     public Wallet() {
         generateKeyPair();
     }
 
+    /**
+     * Returns the current balance of the wallet by summing all the unspent
+     * transaction outputs which has the same public key as the wallet. All
+     * the unspent trasactions are added to the wallet's unspent transaction.
+     *
+     * @return the current wallet balance
+     */
     public float getBalance() {
-        float total = 0;
-        for (Map.Entry<String, TransactionOutput> item : NoobChain.unspentTransactionOuputs.entrySet()) {
-            TransactionOutput unspentTxn = item.getValue();
-
-            // if the output belongs to the current wallet
-            if (unspentTxn.isMine(publicKey)) {
-                // add it to the list of unspent transactions
-                unspentTransactions.put(unspentTxn.getId(), unspentTxn);
-                total += unspentTxn.getValue();
-            }
-        }
-        return total;
+        return NoobChain.UTXO.values()
+                .stream()
+                .filter(t -> {
+                    boolean mine = t.isMine(publicKey);
+                    // if the output belongs to the current wallet
+                    if (mine) {
+                        // add it to the list of unspent transactions
+                        utxo.put(t.getId(), t);
+                    }
+                    return mine;
+                })
+                .collect(Collectors.summingDouble(
+                        t -> t.getValue())).floatValue();
     }
 
     public Transaction sendFunds(PublicKey recipient, float value) {
@@ -53,7 +66,7 @@ public class Wallet {
         List<TransactionInput> inputs = new ArrayList<>();
 
         float total = 0;
-        for (Map.Entry<String, TransactionOutput> item : unspentTransactions.entrySet()) {
+        for (Map.Entry<String, TransactionOutput> item : utxo.entrySet()) {
             TransactionOutput unspentTxn = item.getValue();
             total += unspentTxn.getValue();
             inputs.add(new TransactionInput(unspentTxn.getId()));
@@ -63,7 +76,7 @@ public class Wallet {
         }
 
         for (TransactionInput input : inputs) {
-            unspentTransactions.remove(input.getTransactionOutputId());
+            utxo.remove(input.getTransactionOutputId());
         }
 
         Transaction txn = new Transaction(publicKey, recipient, value, inputs);

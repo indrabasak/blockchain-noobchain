@@ -101,7 +101,7 @@ public class Transaction {
      *
      * @return true if the signature is valid, false otherwise
      */
-    public boolean verifiySignature() {
+    public boolean verifySignature() {
         String data = StringUtil.getStringFromKey(sender) +
                 StringUtil.getStringFromKey(recipient) +
                 Float.toString(value);
@@ -116,7 +116,7 @@ public class Transaction {
      */
     public boolean processTransaction() {
 
-        if (!verifiySignature()) {
+        if (!verifySignature()) {
             log.info("Failed to verify transaction signature.");
 
             return false;
@@ -125,7 +125,7 @@ public class Transaction {
         // gather transaction inputs (Make sure they are unspent):
         for (TransactionInput txn : inputs) {
             txn.setUnspentTxnOutput(
-                    NoobChain.unspentTransactionOuputs.get(txn.getTransactionOutputId()));
+                    NoobChain.UTXO.get(txn.getTransactionOutputId()));
         }
 
         // check if transaction is valid
@@ -149,13 +149,13 @@ public class Transaction {
 
         // add outputs to unspent list
         for (TransactionOutput txn : outputs) {
-            NoobChain.unspentTransactionOuputs.put(txn.getId(), txn);
+            NoobChain.UTXO.put(txn.getId(), txn);
         }
 
         // remove transaction inputs from UTXO lists as spent
         for (TransactionInput txn : inputs) {
             if (txn.getUnspentTxnOutput() != null) {
-                NoobChain.unspentTransactionOuputs.remove(txn.getUnspentTxnOutput().getId());
+                NoobChain.UTXO.remove(txn.getUnspentTxnOutput().getId());
             }
         }
 

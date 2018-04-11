@@ -27,6 +27,8 @@ public class Block {
 
     private List<Transaction> transactions = new ArrayList<>();
 
+    private String merkleRoot;
+
     public Block(String previousHash) {
         this.previousHash = previousHash;
         this.timeStamp = new Date().getTime();
@@ -46,7 +48,8 @@ public class Block {
     public String calculateHash() {
         return StringUtil.applySha256(previousHash +
                 Long.toString(timeStamp) +
-                Integer.toString(nonce));
+                Integer.toString(nonce) +
+                merkleRoot);
     }
 
     /**
@@ -61,6 +64,8 @@ public class Block {
      *                   proof-of-work
      */
     public void mineBlock(int difficulty) {
+        merkleRoot = StringUtil.getMerkleRoot(transactions);
+
         //Create a string with difficulty * "0"
         String target = new String(new char[difficulty]).replace('\0',
                 '0');
@@ -87,7 +92,7 @@ public class Block {
         // process transaction and check if it's valid
         // ignore checking if the block is a genesis block
         if ((previousHash != "0") && !transaction.processTransaction()) {
-            log.info("Transaction failed to process. Discarded.");
+            log.info("Transaction discarded as processing failed.");
             return false;
         }
         transactions.add(transaction);

@@ -15,8 +15,8 @@ public class NoobChain {
 
     private static final int DIFFICULTY = 3;
 
-    protected static Map<String, TransactionOutput> unspentTransactionOuputs
-            = new HashMap<>();
+    // unspent transactions
+    protected static Map<String, TransactionOutput> UTXO = new HashMap<>();
 
     private Transaction genesisTransaction;
 
@@ -35,9 +35,9 @@ public class NoobChain {
             if (!outputs.isEmpty()) {
                 TransactionOutput output = outputs.get(0);
 
-                // it's important to store our first
-                // transaction in the unspentTransactionOuputs list
-                unspentTransactionOuputs.put(output.getId(), output);
+                // it's important to store the first
+                // transaction in the UTXO list
+                UTXO.put(output.getId(), output);
             }
 
             block = new Block("0");
@@ -63,18 +63,18 @@ public class NoobChain {
         tempUTXOs.put(genesisTransaction.getOutputs().get(0).getId(),
                 genesisTransaction.getOutputs().get(0));
 
-        //loop through blockchain to check hashes:
+        //loop through the blockchain to check hashes
         for (int i = 1; i < blockchain.size(); i++) {
             Block currentBlock = blockchain.get(i);
             Block previousBlock = blockchain.get(i - 1);
 
-            // compare current block's hash with calculated hash
+            // compare the current block's hash with calculated hash
             if (!currentBlock.getHash().equals(currentBlock.calculateHash())) {
                 log.error("Calculated hash doesn't match block's hash.");
                 return false;
             }
 
-            // compare previous hash with current block's previous hash
+            // compare the previous hash with current block's previous hash
             if (!previousBlock.getHash().equals(
                     currentBlock.getPreviousHash())) {
                 log.error(
@@ -95,7 +95,7 @@ public class NoobChain {
             for (int t = 0; t < transactions.size(); t++) {
                 Transaction currentTxn = transactions.get(t);
 
-                if (!currentTxn.verifiySignature()) {
+                if (!currentTxn.verifySignature()) {
                     log.error("Transaction({}) signature is invalid.", t);
                     return false;
                 }
