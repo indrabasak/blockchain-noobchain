@@ -13,6 +13,14 @@ The noobchain examples are based on the following blogs:
 
 1. [Creating Your First Blockchain with Java. Part 2 — Transactions.](https://medium.com/programmers-blockchain/creating-your-first-blockchain-with-java-part-2-transactions-2cdac335e0ce)
 
+### Build
+To build the JAR, execute the following command from the parent directory:
+
+```
+mvn clean install
+```
+### Usage
+Run the  `NoobChain` class for each of the examples from an IDE like IntelliJ.
 
 Blockchain Glossary
 =======================
@@ -134,8 +142,42 @@ public void mineBlock(int difficulty) {
 
 ![](./img/noobchain-class-dia.svg)
 
+### Noobchain Example 1 Output
+
+```bash
+Block Mined!!! : 00000dd85c854b8dfdba7b61358d2444d2afd613dbce55317f81a416551a9497
+Block Mined!!! : 00000a0ae7bbf378b5643762178656a6a2be3797d08b5b39a550ee7809ea3517
+Block Mined!!! : 000004720fe2ccc9b8112aa1b0e6e48412c86c1db41df566bd3b4d72a4801cb7
+[
+  {
+    "hash": "00000dd85c854b8dfdba7b61358d2444d2afd613dbce55317f81a416551a9497",
+    "previousHash": "0",
+    "data": "Hi I'm the first block",
+    "timeStamp": 1523425003386,
+    "nonce": 106963
+  },
+  {
+    "hash": "00000a0ae7bbf378b5643762178656a6a2be3797d08b5b39a550ee7809ea3517",
+    "previousHash": "00000dd85c854b8dfdba7b61358d2444d2afd613dbce55317f81a416551a9497",
+    "data": "Yo I'm the second block",
+    "timeStamp": 1523425003789,
+    "nonce": 108288
+  },
+  {
+    "hash": "000004720fe2ccc9b8112aa1b0e6e48412c86c1db41df566bd3b4d72a4801cb7",
+    "previousHash": "00000a0ae7bbf378b5643762178656a6a2be3797d08b5b39a550ee7809ea3517",
+    "data": "Hey I'm the third block",
+    "timeStamp": 1523425004150,
+    "nonce": 1812067
+  }
+]
+valid block chain: true
+```
+
 Noobchain Example 2
 ====================
+![](./img/wallet-txn-block.svg)
+
 Noobchain example two includes the following:
 
 - A simple block (`Block.java`) containing `previous block hash`, its own 
@@ -179,49 +221,7 @@ a receiver wallet:
 
 ![](./img/noobchain2-class-dia.svg)
 
-### Build
-To build the JAR, execute the following command from the parent directory:
-
-```
-mvn clean install
-```
-
-### Usage
-Run the  `NoobChain` class for each of the examples from an IDE like IntelliJ.
-
-#### Noobchain Example 1 Output
-
-```bash
-Block Mined!!! : 00000dd85c854b8dfdba7b61358d2444d2afd613dbce55317f81a416551a9497
-Block Mined!!! : 00000a0ae7bbf378b5643762178656a6a2be3797d08b5b39a550ee7809ea3517
-Block Mined!!! : 000004720fe2ccc9b8112aa1b0e6e48412c86c1db41df566bd3b4d72a4801cb7
-[
-  {
-    "hash": "00000dd85c854b8dfdba7b61358d2444d2afd613dbce55317f81a416551a9497",
-    "previousHash": "0",
-    "data": "Hi I'm the first block",
-    "timeStamp": 1523425003386,
-    "nonce": 106963
-  },
-  {
-    "hash": "00000a0ae7bbf378b5643762178656a6a2be3797d08b5b39a550ee7809ea3517",
-    "previousHash": "00000dd85c854b8dfdba7b61358d2444d2afd613dbce55317f81a416551a9497",
-    "data": "Yo I'm the second block",
-    "timeStamp": 1523425003789,
-    "nonce": 108288
-  },
-  {
-    "hash": "000004720fe2ccc9b8112aa1b0e6e48412c86c1db41df566bd3b4d72a4801cb7",
-    "previousHash": "00000a0ae7bbf378b5643762178656a6a2be3797d08b5b39a550ee7809ea3517",
-    "data": "Hey I'm the third block",
-    "timeStamp": 1523425004150,
-    "nonce": 1812067
-  }
-]
-valid block chain: true
-```
-
-#### Noobchain Example 2 Output
+### Noobchain Example 2 Output
 
 ```bash
 2018-04-10T22:35:23.727-07:00: [INFO] main com.basaki.noobchain.NoobChain - Creating and Mining Genesis block... 

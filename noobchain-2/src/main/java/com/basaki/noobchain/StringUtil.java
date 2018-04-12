@@ -15,7 +15,7 @@ import java.util.List;
 @SuppressWarnings({"squid:S00112"})
 public class StringUtil {
 
-    private static final int MAGIC_NUMBER = 0xff;
+    private static final int INT_BIT_MASK = 0xff;
 
     /**
      * Creates a SHA-256 hash of the input string.
@@ -28,17 +28,27 @@ public class StringUtil {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             //Applies sha256 to our input,
             byte[] hash = digest.digest(input.getBytes("UTF-8"));
-            StringBuilder hexString =
-                    new StringBuilder(); // This will contain hash as hexidecimal
-            for (int i = 0; i < hash.length; i++) {
-                String hex = Integer.toHexString(MAGIC_NUMBER & hash[i]);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-            return hexString.toString();
+            return toString(hash);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Converts a byte array to a hexdecimal string
+     *
+     * @param bytes byte array
+     * @return a hexdecimal string
+     */
+    public static String toString(byte[] bytes) {
+        StringBuilder hexString =
+                new StringBuilder(); // This will contain hash as hexidecimal
+        for (int i = 0; i < bytes.length; i++) {
+            String hex = Integer.toHexString(INT_BIT_MASK & bytes[i]);
+            if (hex.length() == 1) hexString.append('0');
+            hexString.append(hex);
+        }
+        return hexString.toString();
     }
 
     /**
