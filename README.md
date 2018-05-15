@@ -249,11 +249,11 @@ a receiver wallet:
 [travis-badge]: https://travis-ci.org/indrabasak/blockchain-noobchain.svg?branch=master
 [travis-badge-url]: https://travis-ci.org/indrabasak/blockchain-noobchain/
 
-[sonarqube-badge]: https://sonarcloud.io/api/badges/gate?key=com.basaki:blockchain-noobchain
+[sonarqube-badge]: https://sonarcloud.io/api/project_badges/measure?project=com.basaki%3Ablockchain-noobchain&metric=alert_status
 [sonarqube-badge-url]: https://sonarcloud.io/dashboard/index/com.basaki:blockchain-noobchain 
 
-[technical-debt-ratio-badge]: https://sonarcloud.io/api/badges/measure?key=com.basaki:blockchain-noobchain&metric=sqale_debt_ratio
+[technical-debt-ratio-badge]: https://sonarcloud.io/api/project_badges/measure?project=com.basaki%3Ablockchain-noobchain&metric=sqale_index
 [technical-debt-ratio-badge-url]: https://sonarcloud.io/dashboard/index/com.basaki:blockchain-noobchain
 
-[coverage-badge]: https://sonarcloud.io/api/badges/measure?key=com.basaki:blockchain-noobchain&metric=coverage
+[coverage-badge]: https://sonarcloud.io/api/project_badges/measure?project=com.basaki%3Ablockchain-noobchain&metric=coverage
 [coverage-badge-url]: https://sonarcloud.io/dashboard/index/com.basaki:blockchain-noobchain
